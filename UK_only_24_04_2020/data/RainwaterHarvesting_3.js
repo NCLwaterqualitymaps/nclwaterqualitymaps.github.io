@@ -1,0 +1,15 @@
+var json_RainwaterHarvesting_3 = {
+"type": "FeatureCollection",
+"name": "RainwaterHarvesting_3",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Sample_ID": "DB1_mar19", "Sampling date": "05.03.2019", "Location ID": "Devonshire Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.613531, 54.981095 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "DB2_mar19", "Sampling date": "05.03.2019", "Location ID": "Devonshire Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.613531, 54.981095 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "USB1_mar19", "Sampling date": "05.03.2019", "Location ID": "Urban Sciences Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.625247, 54.973598 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "USB2_mar19", "Sampling date": "05.03.2019", "Location ID": "Urban Sciences Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.625247, 54.973598 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "DB1_apr19", "Sampling date": "10.04.2019", "Location ID": "Devonshire Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.613531, 54.981095 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "DB2_apr19", "Sampling date": "10.04.2019", "Location ID": "Devonshire Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.613531, 54.981095 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "USB1_apr19", "Sampling date": "10.04.2019", "Location ID": "Urban Sciences Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.625247, 54.973598 ] } },
+{ "type": "Feature", "properties": { "Sample_ID": "USB2_apr19", "Sampling date": "10.04.2019", "Location ID": "Urban Sciences Building", "Sample Source": "Rainwater Harvesting", "Contaminants": "Water considered safe on date of sample", "Health Effects": null, "Treatments": null }, "geometry": { "type": "Point", "coordinates": [ -1.625247, 54.973598 ] } }
+]
+}

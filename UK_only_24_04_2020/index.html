@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/Borehole_1.js"></script>
+        <script src="data/Groundwater_2.js"></script>
+        <script src="data/RainwaterHarvesting_3.js"></script>
+        <script src="data/SurfaceWater_4.js"></script>
+        <script src="data/WastewaterTreated_5.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[55.20275083954277,-1.6970614954047258],[55.217805536942365,-1.6760460548723013]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_Borehole_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Contaminants</strong><br />' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Health Effects</strong><br />' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Treatments</strong><br />' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_Borehole_1_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Borehole_1rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Borehole_1',
+                shape: 'triangle',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Borehole_1rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Borehole_1',
+                shape: 'triangle',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,35,35,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Borehole_1');
+        map.getPane('pane_Borehole_1').style.zIndex = 401;
+        map.getPane('pane_Borehole_1').style['mix-blend-mode'] = 'normal';
+        var layer_Borehole_1 = new L.geoJson(json_Borehole_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Borehole_1',
+            layerName: 'layer_Borehole_1',
+            pane: 'pane_Borehole_1',
+            onEachFeature: pop_Borehole_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Borehole_1_0(feature));
+            },
+        });
+        var cluster_Borehole_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Borehole_1.addLayer(layer_Borehole_1);
+
+        bounds_group.addLayer(layer_Borehole_1);
+        cluster_Borehole_1.addTo(map);
+        function pop_Groundwater_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Contaminants</strong><br />' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Health Effects</strong><br />' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Treatments</strong><br />' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_Groundwater_2_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Groundwater_2rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Groundwater_2',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Groundwater_2rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Groundwater_2',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,35,35,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Groundwater_2');
+        map.getPane('pane_Groundwater_2').style.zIndex = 402;
+        map.getPane('pane_Groundwater_2').style['mix-blend-mode'] = 'normal';
+        var layer_Groundwater_2 = new L.geoJson(json_Groundwater_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Groundwater_2',
+            layerName: 'layer_Groundwater_2',
+            pane: 'pane_Groundwater_2',
+            onEachFeature: pop_Groundwater_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Groundwater_2_0(feature));
+            },
+        });
+        var cluster_Groundwater_2 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Groundwater_2.addLayer(layer_Groundwater_2);
+
+        bounds_group.addLayer(layer_Groundwater_2);
+        cluster_Groundwater_2.addTo(map);
+        function pop_RainwaterHarvesting_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Contaminants</strong><br />' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Health Effects</strong><br />' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Treatments</strong><br />' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_RainwaterHarvesting_3_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_RainwaterHarvesting_3rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_RainwaterHarvesting_3',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_RainwaterHarvesting_3rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_RainwaterHarvesting_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,35,35,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_RainwaterHarvesting_3');
+        map.getPane('pane_RainwaterHarvesting_3').style.zIndex = 403;
+        map.getPane('pane_RainwaterHarvesting_3').style['mix-blend-mode'] = 'normal';
+        var layer_RainwaterHarvesting_3 = new L.geoJson(json_RainwaterHarvesting_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_RainwaterHarvesting_3',
+            layerName: 'layer_RainwaterHarvesting_3',
+            pane: 'pane_RainwaterHarvesting_3',
+            onEachFeature: pop_RainwaterHarvesting_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_RainwaterHarvesting_3_0(feature));
+            },
+        });
+        var cluster_RainwaterHarvesting_3 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_RainwaterHarvesting_3.addLayer(layer_RainwaterHarvesting_3);
+
+        bounds_group.addLayer(layer_RainwaterHarvesting_3);
+        cluster_RainwaterHarvesting_3.addTo(map);
+        function pop_SurfaceWater_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Contaminants</strong><br />' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Health Effects</strong><br />' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Treatments</strong><br />' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_SurfaceWater_4_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_SurfaceWater_4rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_SurfaceWater_4',
+                shape: 'diamond',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_SurfaceWater_4rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_SurfaceWater_4',
+                shape: 'diamond',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,35,35,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_SurfaceWater_4');
+        map.getPane('pane_SurfaceWater_4').style.zIndex = 404;
+        map.getPane('pane_SurfaceWater_4').style['mix-blend-mode'] = 'normal';
+        var layer_SurfaceWater_4 = new L.geoJson(json_SurfaceWater_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SurfaceWater_4',
+            layerName: 'layer_SurfaceWater_4',
+            pane: 'pane_SurfaceWater_4',
+            onEachFeature: pop_SurfaceWater_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_SurfaceWater_4_0(feature));
+            },
+        });
+        var cluster_SurfaceWater_4 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_SurfaceWater_4.addLayer(layer_SurfaceWater_4);
+
+        bounds_group.addLayer(layer_SurfaceWater_4);
+        cluster_SurfaceWater_4.addTo(map);
+        function pop_WastewaterTreated_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Contaminants</strong><br />' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Health Effects</strong><br />' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Treatments</strong><br />' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_WastewaterTreated_5_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_WastewaterTreated_5rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_WastewaterTreated_5',
+                shape: 'square',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_WastewaterTreated_5rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_WastewaterTreated_5',
+                shape: 'square',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,35,35,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_WastewaterTreated_5');
+        map.getPane('pane_WastewaterTreated_5').style.zIndex = 405;
+        map.getPane('pane_WastewaterTreated_5').style['mix-blend-mode'] = 'normal';
+        var layer_WastewaterTreated_5 = new L.geoJson(json_WastewaterTreated_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_WastewaterTreated_5',
+            layerName: 'layer_WastewaterTreated_5',
+            pane: 'pane_WastewaterTreated_5',
+            onEachFeature: pop_WastewaterTreated_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_WastewaterTreated_5_0(feature));
+            },
+        });
+        var cluster_WastewaterTreated_5 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_WastewaterTreated_5.addLayer(layer_WastewaterTreated_5);
+
+        bounds_group.addLayer(layer_WastewaterTreated_5);
+        cluster_WastewaterTreated_5.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Wastewater (Treated)<br /><table><tr><td style="text-align: center;"><img src="legend/WastewaterTreated_5_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/WastewaterTreated_5_ContaminantLevelsExceededonSamplingDate1.png" /></td><td>Contaminant Levels Exceeded on Sampling Date</td></tr></table>': cluster_WastewaterTreated_5,'Surface Water<br /><table><tr><td style="text-align: center;"><img src="legend/SurfaceWater_4_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/SurfaceWater_4_ContaminantLevelsExceededonSamplingDate1.png" /></td><td>Contaminant Levels Exceeded on Sampling Date</td></tr></table>': cluster_SurfaceWater_4,'Rainwater Harvesting<br /><table><tr><td style="text-align: center;"><img src="legend/RainwaterHarvesting_3_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/RainwaterHarvesting_3_ContaminantLevelsExceededonSamplingDate1.png" /></td><td>Contaminant Levels Exceeded on Sampling Date</td></tr></table>': cluster_RainwaterHarvesting_3,'Groundwater<br /><table><tr><td style="text-align: center;"><img src="legend/Groundwater_2_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/Groundwater_2_ContaminantLevelsExceededonSamplingDate1.png" /></td><td>Contaminant Levels Exceeded on Sampling Date</td></tr></table>': cluster_Groundwater_2,'Borehole<br /><table><tr><td style="text-align: center;"><img src="legend/Borehole_1_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/Borehole_1_ContaminantLevelsExceededonSamplingDate1.png" /></td><td>Contaminant Levels Exceeded on Sampling Date</td></tr></table>': cluster_Borehole_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
