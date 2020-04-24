@@ -1,9 +1,0 @@
-var json_Groundwater_2 = {
-"type": "FeatureCollection",
-"name": "Groundwater_2",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "Sample_ID": "S2_2019", "Sampling date": "14.03.2019", "Location ID": "Birtley WWTP", "Sample Source": "Groundwater (Mine)", "Contaminants": "High bromide level; High chloride level; ", "Health Effects": "High Bromide levels can cause vomiting, abdominal pain, coma and paralysis; High Chloride levels may cause taste to be affected; ", "Treatments": "Bromide can be reduced using granular activated carbon or reverse osmosis; Chloride can be reduced using reverse osmosis, distillation or ion exchange; " }, "geometry": { "type": "Point", "coordinates": [ -1.6021, 54.90472 ] } },
-{ "type": "Feature", "properties": { "Sample_ID": "S8", "Sampling date": "19.06.2019", "Location ID": "Birtley WWTP", "Sample Source": "Groundwater", "Contaminants": "High bromide level; High calcium level; High chloride level; High manganese level; High sodium level; ", "Health Effects": "High Bromide levels can cause vomiting, abdominal pain, coma and paralysis; High Calcium levels may cause taste to be affected; High Chloride levels may cause taste to be affected; High manganese levels may cause taste to be affected; High Sodium levels may cause taste to be affected; ", "Treatments": "Bromide can be reduced using granular activated carbon or reverse osmosis; Calcium can be reduced using a water softener or point of use reverse osmosis; Chloride can be reduced using reverse osmosis, distillation or ion exchange; Manganese levels can be reduced using aeration or ion exchange; Sodium can be reduced through distillaton, ion exchange and reverse osmosis; " }, "geometry": { "type": "Point", "coordinates": [ -1.6021, 54.90472 ] } }
-]
-}
