@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/UK_Results_CSV_1.js"></script>
+        <script src="data/KTM_CSV_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[27.536642805383686,84.98569767068334],[27.87299455538369,85.60732935588273]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_UK_Results_CSV_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sample description'] !== null ? Autolinker.link(feature.properties['Sample description'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Label'] !== null ? Autolinker.link(feature.properties['Label'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Latitude'] !== null ? Autolinker.link(feature.properties['Latitude'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Longitude'] !== null ? Autolinker.link(feature.properties['Longitude'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sea Level (mAOD)'] !== null ? Autolinker.link(feature.properties['Sea Level (mAOD)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Depth below ground (m)'] !== null ? Autolinker.link(feature.properties['Depth below ground (m)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pH'] !== null ? Autolinker.link(feature.properties['pH'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Temp (degC)'] !== null ? Autolinker.link(feature.properties['Temp (degC)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Salinity (ppm)'] !== null ? Autolinker.link(feature.properties['Salinity (ppm)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TDS (mg/l)'] !== null ? Autolinker.link(feature.properties['TDS (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Conductivity (uS)'] !== null ? Autolinker.link(feature.properties['Conductivity (uS)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Alkalinity (mg/L CaCO3)'] !== null ? Autolinker.link(feature.properties['Alkalinity (mg/L CaCO3)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Faecal Coliforms (count/100ml)'] !== null ? Autolinker.link(feature.properties['Faecal Coliforms (count/100ml)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Aluminium (mg/l)'] !== null ? Autolinker.link(feature.properties['Aluminium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ammonium (mg/l)'] !== null ? Autolinker.link(feature.properties['Ammonium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Antimony (mg/l)'] !== null ? Autolinker.link(feature.properties['Antimony (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Arsenic (mg/l)'] !== null ? Autolinker.link(feature.properties['Arsenic (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Barium (mg/l)'] !== null ? Autolinker.link(feature.properties['Barium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bromide (mg/l)'] !== null ? Autolinker.link(feature.properties['Bromide (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Cadmium (mg/l)'] !== null ? Autolinker.link(feature.properties['Cadmium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Calcium (mg/l)'] !== null ? Autolinker.link(feature.properties['Calcium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chloride (mg/l)'] !== null ? Autolinker.link(feature.properties['Chloride (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chromium (mg/l)'] !== null ? Autolinker.link(feature.properties['Chromium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Copper (mg/l)'] !== null ? Autolinker.link(feature.properties['Copper (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Fluoride (mg/l)'] !== null ? Autolinker.link(feature.properties['Fluoride (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Iron (mg/l)'] !== null ? Autolinker.link(feature.properties['Iron (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lead (mg/l)'] !== null ? Autolinker.link(feature.properties['Lead (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Magnesium (mg/l)'] !== null ? Autolinker.link(feature.properties['Magnesium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Manganese (mg/l)'] !== null ? Autolinker.link(feature.properties['Manganese (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nickel (mg/l)'] !== null ? Autolinker.link(feature.properties['Nickel (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrate (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrate (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrate.1 (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrate.1 (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrite (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrite (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrite.1 (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrite.1 (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Phosphate (mg/l)'] !== null ? Autolinker.link(feature.properties['Phosphate (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Potassium (mg/l)'] !== null ? Autolinker.link(feature.properties['Potassium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Silicon (mg/l)'] !== null ? Autolinker.link(feature.properties['Silicon (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sodium (mg/l)'] !== null ? Autolinker.link(feature.properties['Sodium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Strontium (mg/l)'] !== null ? Autolinker.link(feature.properties['Strontium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sulphate (mg/l)'] !== null ? Autolinker.link(feature.properties['Sulphate (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Zinc (mg/l)'] !== null ? Autolinker.link(feature.properties['Zinc (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOC (mg/l)'] !== null ? Autolinker.link(feature.properties['TOC (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TIC (mg/l)'] !== null ? Autolinker.link(feature.properties['TIC (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 200 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 200 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 210 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 210 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 220 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 220 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 230 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 230 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 254 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 254 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 260 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 260 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 280 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 280 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 300 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 300 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Total Coliforms (total count)'] !== null ? Autolinker.link(feature.properties['Total Coliforms (total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Putative Pathogens - Human  E.coli(total count)'] !== null ? Autolinker.link(feature.properties['Putative Pathogens - Human  E.coli(total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Putative Pathogens - Total  E.coli (total count)'] !== null ? Autolinker.link(feature.properties['Putative Pathogens - Total  E.coli (total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Putative Pathogens - Total  Coliform(total count)'] !== null ? Autolinker.link(feature.properties['Putative Pathogens - Total  Coliform(total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Total Bacteria (total count)'] !== null ? Autolinker.link(feature.properties['Total Bacteria (total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Enterococci (count/100ml)'] !== null ? Autolinker.link(feature.properties['Enterococci (count/100ml)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['View Report'] !== null ? Autolinker.link(feature.properties['View Report'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_UK_Results_CSV_1_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_UK_Results_CSV_1rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_UK_Results_CSV_1',
+                radius: 8.000000000000004,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_UK_Results_CSV_1rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_UK_Results_CSV_1',
+                radius: 8.000000000000004,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,26,28,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_UK_Results_CSV_1');
+        map.getPane('pane_UK_Results_CSV_1').style.zIndex = 401;
+        map.getPane('pane_UK_Results_CSV_1').style['mix-blend-mode'] = 'normal';
+        var layer_UK_Results_CSV_1 = new L.geoJson(json_UK_Results_CSV_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_UK_Results_CSV_1',
+            layerName: 'layer_UK_Results_CSV_1',
+            pane: 'pane_UK_Results_CSV_1',
+            onEachFeature: pop_UK_Results_CSV_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_UK_Results_CSV_1_0(feature));
+            },
+        });
+        var cluster_UK_Results_CSV_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_UK_Results_CSV_1.addLayer(layer_UK_Results_CSV_1);
+
+        bounds_group.addLayer(layer_UK_Results_CSV_1);
+        cluster_UK_Results_CSV_1.addTo(map);
+        function pop_KTM_CSV_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample_ID</strong><br />' + (feature.properties['Sample_ID'] !== null ? Autolinker.link(feature.properties['Sample_ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sampling date</strong><br />' + (feature.properties['Sampling date'] !== null ? Autolinker.link(feature.properties['Sampling date'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Location ID</strong><br />' + (feature.properties['Location ID'] !== null ? Autolinker.link(feature.properties['Location ID'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample description</strong><br />' + (feature.properties['Sample description'] !== null ? Autolinker.link(feature.properties['Sample description'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sample Source</strong><br />' + (feature.properties['Sample Source'] !== null ? Autolinker.link(feature.properties['Sample Source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Label</strong><br />' + (feature.properties['Label'] !== null ? Autolinker.link(feature.properties['Label'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Faecal Coliforms (count/100ml)'] !== null ? Autolinker.link(feature.properties['Faecal Coliforms (count/100ml)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Aluminium (mg/l)'] !== null ? Autolinker.link(feature.properties['Aluminium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ammonium (mg/l)'] !== null ? Autolinker.link(feature.properties['Ammonium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Antimony (mg/l)'] !== null ? Autolinker.link(feature.properties['Antimony (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Arsenic (mg/l)'] !== null ? Autolinker.link(feature.properties['Arsenic (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Barium (mg/l)'] !== null ? Autolinker.link(feature.properties['Barium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Bromide (mg/l)'] !== null ? Autolinker.link(feature.properties['Bromide (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Cadmium (mg/l)'] !== null ? Autolinker.link(feature.properties['Cadmium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Calcium (mg/l)'] !== null ? Autolinker.link(feature.properties['Calcium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chloride (mg/l)'] !== null ? Autolinker.link(feature.properties['Chloride (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chromium (mg/l)'] !== null ? Autolinker.link(feature.properties['Chromium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Copper (mg/l)'] !== null ? Autolinker.link(feature.properties['Copper (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Fluoride (mg/l)'] !== null ? Autolinker.link(feature.properties['Fluoride (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Iron (mg/l)'] !== null ? Autolinker.link(feature.properties['Iron (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lead (mg/l)'] !== null ? Autolinker.link(feature.properties['Lead (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Magnesium (mg/l)'] !== null ? Autolinker.link(feature.properties['Magnesium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Manganese (mg/l)'] !== null ? Autolinker.link(feature.properties['Manganese (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nickel (mg/l)'] !== null ? Autolinker.link(feature.properties['Nickel (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrate HACH (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrate HACH (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrate Ion Chrom (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrate Ion Chrom (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrite HACH (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrite HACH (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nitrite Ion Chrom (mg/l)'] !== null ? Autolinker.link(feature.properties['Nitrite Ion Chrom (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Phosphate (mg/l)'] !== null ? Autolinker.link(feature.properties['Phosphate (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Potassium (mg/l)'] !== null ? Autolinker.link(feature.properties['Potassium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Silicon (mg/l)'] !== null ? Autolinker.link(feature.properties['Silicon (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sodium (mg/l)'] !== null ? Autolinker.link(feature.properties['Sodium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Strontium (mg/l)'] !== null ? Autolinker.link(feature.properties['Strontium (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sulphate (mg/l)'] !== null ? Autolinker.link(feature.properties['Sulphate (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Zinc (mg/l)'] !== null ? Autolinker.link(feature.properties['Zinc (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOC (mg/l)'] !== null ? Autolinker.link(feature.properties['TOC (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TIC (mg/l)'] !== null ? Autolinker.link(feature.properties['TIC (mg/l)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 200 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 200 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 210 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 210 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 220 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 220 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 230 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 230 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 254 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 254 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 260 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 260 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 280 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 280 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UV abs 300 (cm-1)'] !== null ? Autolinker.link(feature.properties['UV abs 300 (cm-1)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Total Coliforms (total count)'] !== null ? Autolinker.link(feature.properties['Total Coliforms (total count)'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Contaminants'] !== null ? Autolinker.link(feature.properties['Contaminants'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Health Effects'] !== null ? Autolinker.link(feature.properties['Health Effects'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Treatments'] !== null ? Autolinker.link(feature.properties['Treatments'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['View Report'] !== null ? Autolinker.link(feature.properties['View Report'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_KTM_CSV_2_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_KTM_CSV_2rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_KTM_CSV_2',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_KTM_CSV_2rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_KTM_CSV_2',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,26,28,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_KTM_CSV_2');
+        map.getPane('pane_KTM_CSV_2').style.zIndex = 402;
+        map.getPane('pane_KTM_CSV_2').style['mix-blend-mode'] = 'normal';
+        var layer_KTM_CSV_2 = new L.geoJson(json_KTM_CSV_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_KTM_CSV_2',
+            layerName: 'layer_KTM_CSV_2',
+            pane: 'pane_KTM_CSV_2',
+            onEachFeature: pop_KTM_CSV_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_KTM_CSV_2_0(feature));
+            },
+        });
+        var cluster_KTM_CSV_2 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_KTM_CSV_2.addLayer(layer_KTM_CSV_2);
+
+        bounds_group.addLayer(layer_KTM_CSV_2);
+        cluster_KTM_CSV_2.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'KTM_CSV<br /><table><tr><td style="text-align: center;"><img src="legend/KTM_CSV_2_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/KTM_CSV_2_ContaminantLevelsexceededonSamplingDate1.png" /></td><td>Contaminant Levels exceeded on Sampling Date</td></tr></table>': cluster_KTM_CSV_2,'UK_Results_CSV<br /><table><tr><td style="text-align: center;"><img src="legend/UK_Results_CSV_1_UncontaminatedonSamplingDate0.png" /></td><td>Uncontaminated on Sampling Date</td></tr><tr><td style="text-align: center;"><img src="legend/UK_Results_CSV_1_ContaminantLevelsexceededonSamplingDate1.png" /></td><td>Contaminant Levels exceeded on Sampling Date</td></tr></table>': cluster_UK_Results_CSV_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_UK_Results_CSV_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Label'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Label']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_UK_Results_CSV_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_KTM_CSV_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Label'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Label']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_KTM_CSV_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_UK_Results_CSV_1,layer_KTM_CSV_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer_UK_Results_CSV_1,layer_KTM_CSV_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_UK_Results_CSV_1,layer_KTM_CSV_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_UK_Results_CSV_1,layer_KTM_CSV_2]);
+        });
+        </script>
+    </body>
+</html>
